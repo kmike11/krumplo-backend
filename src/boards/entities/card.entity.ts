@@ -2,8 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -12,13 +10,9 @@ import {
 import { CardPriority } from '../../common/enums/card-priority.enum';
 import { CardType } from '../../common/enums/card-type.enum';
 import { UserEntity } from '../../users/user.entity';
-import { AttachmentEntity } from './attachment.entity';
 import { BoardColumnEntity } from './board-column.entity';
 import { BoardEntity } from './board.entity';
-import { ChecklistItemEntity } from './checklist-item.entity';
 import { CommentEntity } from './comment.entity';
-import { LabelEntity } from './label.entity';
-import { SprintEntity } from './sprint.entity';
 
 @Entity('cards')
 export class CardEntity {
@@ -66,40 +60,8 @@ export class CardEntity {
   })
   reporter?: UserEntity;
 
-  @ManyToMany(() => UserEntity, (user) => user.watchingCards, {
-    cascade: false,
-  })
-  @JoinTable({
-    name: 'card_watchers',
-    joinColumn: { name: 'card_id' },
-    inverseJoinColumn: { name: 'user_id' },
-  })
-  watchers?: UserEntity[];
-
-  @ManyToMany(() => LabelEntity, (label) => label.cards, { cascade: false })
-  @JoinTable({
-    name: 'card_labels',
-    joinColumn: { name: 'card_id' },
-    inverseJoinColumn: { name: 'label_id' },
-  })
-  labels?: LabelEntity[];
-
-  @OneToMany(() => ChecklistItemEntity, (item) => item.card, { cascade: true })
-  checklistItems?: ChecklistItemEntity[];
-
   @OneToMany(() => CommentEntity, (comment) => comment.card, { cascade: true })
   comments?: CommentEntity[];
-
-  @OneToMany(() => AttachmentEntity, (attachment) => attachment.card, {
-    cascade: true,
-  })
-  attachments?: AttachmentEntity[];
-
-  @ManyToOne(() => SprintEntity, (sprint) => sprint.cards, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  sprint?: SprintEntity;
 
   @CreateDateColumn()
   createdAt!: Date;

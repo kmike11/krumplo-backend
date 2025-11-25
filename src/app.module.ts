@@ -10,11 +10,7 @@ import { UserEntity } from './users/user.entity';
 import { BoardEntity } from './boards/entities/board.entity';
 import { BoardColumnEntity } from './boards/entities/board-column.entity';
 import { CardEntity } from './boards/entities/card.entity';
-import { LabelEntity } from './boards/entities/label.entity';
-import { ChecklistItemEntity } from './boards/entities/checklist-item.entity';
 import { CommentEntity } from './boards/entities/comment.entity';
-import { AttachmentEntity } from './boards/entities/attachment.entity';
-import { SprintEntity } from './boards/entities/sprint.entity';
 
 @Module({
   imports: [
@@ -36,11 +32,7 @@ import { SprintEntity } from './boards/entities/sprint.entity';
           BoardEntity,
           BoardColumnEntity,
           CardEntity,
-          LabelEntity,
-          ChecklistItemEntity,
           CommentEntity,
-          AttachmentEntity,
-          SprintEntity,
         ],
         synchronize: true,
         logging: configService.get<boolean>('DB_LOGGING', false),

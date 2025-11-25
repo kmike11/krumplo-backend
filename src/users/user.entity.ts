@@ -43,9 +43,6 @@ export class UserEntity {
   @OneToMany(() => CardEntity, (card) => card.reporter)
   reportedCards?: CardEntity[];
 
-  @ManyToMany(() => CardEntity, (card) => card.watchers)
-  watchingCards?: CardEntity[];
-
   @OneToMany(() => CommentEntity, (comment) => comment.author)
   comments?: CommentEntity[];
 

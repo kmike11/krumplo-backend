@@ -12,8 +12,6 @@ import {
 import { UserEntity } from '../../users/user.entity';
 import { BoardColumnEntity } from './board-column.entity';
 import { CardEntity } from './card.entity';
-import { LabelEntity } from './label.entity';
-import { SprintEntity } from './sprint.entity';
 
 @Entity('boards')
 export class BoardEntity {
@@ -43,12 +41,6 @@ export class BoardEntity {
     cascade: true,
   })
   columns?: BoardColumnEntity[];
-
-  @OneToMany(() => LabelEntity, (label) => label.board, { cascade: true })
-  labels?: LabelEntity[];
-
-  @OneToMany(() => SprintEntity, (sprint) => sprint.board, { cascade: true })
-  sprints?: SprintEntity[];
 
   @OneToMany(() => CardEntity, (card) => card.board)
   cards?: CardEntity[];

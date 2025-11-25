@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray,
   IsDateString,
   IsEnum,
   IsInt,
@@ -54,13 +53,4 @@ export class CreateCardDto {
   @IsOptional()
   @IsUUID()
   reporterId?: string;
-
-  @ApiPropertyOptional({
-    type: [String],
-    description: 'Associated label identifiers',
-  })
-  @IsOptional()
-  @IsArray()
-  @IsUUID('all', { each: true })
-  labelIds?: string[];
 }

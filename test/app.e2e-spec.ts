@@ -19,6 +19,7 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('api');
     await app.init();
   });
 
@@ -26,10 +27,13 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  it('responds with the welcome message', async () => {
+  it('exposes the health check endpoint', async () => {
     await request(app.getHttpServer())
-      .get('/')
+      .get('/api/health')
       .expect(200)
-      .expect('Hello World!');
+      .expect((response) => {
+        expect(response.body).toHaveProperty('status', 'ok');
+        expect(response.body).toHaveProperty('timestamp');
+      });
   });
 });

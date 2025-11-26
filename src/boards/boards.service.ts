@@ -613,8 +613,8 @@ export class BoardsService {
       columns: (board.columns ?? []).map((column) =>
         this.toColumnResponseDto(column),
       ),
-      createdAt: board.createdAt.toISOString(),
-      updatedAt: board.updatedAt.toISOString(),
+      createdAt: this.toIsoString(board.createdAt),
+      updatedAt: this.toIsoString(board.updatedAt),
     };
   }
 
@@ -626,8 +626,8 @@ export class BoardsService {
       title: column.title,
       position: column.position,
       cards: (column.cards ?? []).map((card) => this.toCardResponseDto(card)),
-      createdAt: column.createdAt.toISOString(),
-      updatedAt: column.updatedAt.toISOString(),
+      createdAt: this.toIsoString(column.createdAt),
+      updatedAt: this.toIsoString(column.updatedAt),
     };
   }
 
@@ -653,12 +653,27 @@ export class BoardsService {
         author: comment.author
           ? this.usersService.toResponseDto(comment.author)
           : undefined,
-        createdAt: comment.createdAt.toISOString(),
-        updatedAt: comment.updatedAt.toISOString(),
+        createdAt: this.toIsoString(comment.createdAt),
+        updatedAt: this.toIsoString(comment.updatedAt),
       })),
-      createdAt: card.createdAt.toISOString(),
-      updatedAt: card.updatedAt.toISOString(),
+      createdAt: this.toIsoString(card.createdAt),
+      updatedAt: this.toIsoString(card.updatedAt),
     };
+  }
+
+  private toIsoString(value: Date | string): string {
+    if (value instanceof Date) {
+      return value.toISOString();
+    }
+
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) {
+      throw new Error(
+        'Invalid date value encountered while mapping board data',
+      );
+    }
+
+    return parsed.toISOString();
   }
 
   private async findUserByEmailOrFail(email: string) {

@@ -15,10 +15,12 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- Jest typings are handled globally
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('health', () => {
+    it('should expose ok status and ISO timestamp', () => {
+      const result = appController.getHealth();
+
+      expect(result.status).toBe('ok');
+      expect(() => new Date(result.timestamp)).not.toThrow();
     });
   });
 });
